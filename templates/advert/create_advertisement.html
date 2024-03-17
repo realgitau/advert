@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Advertisement</title>
+</head>
+<body>
+    <h1>Create Advertisement</h1>
+    <form method="post" id="advertisement-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <div>
+        <label for="tier-select">Select Tier:</label>
+        <select id="tier-select" name="tier">
+            <option value="Basic">Basic</option>
+            <option value="Recommended">Recommended</option>
+            <option value="Premium">Premium</option>
+        </select>
+        <span id="payment-amount">Pay $1</span>
+    </div>
+
+    <script>
+        document.getElementById('tier-select').addEventListener('change', function() {
+            var tier = this.value;
+            var paymentAmount = document.getElementById('payment-amount');
+            if (tier === 'Basic') {
+                paymentAmount.textContent = 'Pay $1';
+            } else if (tier === 'Recommended') {
+                paymentAmount.textContent = 'Pay $2';
+            } else if (tier === 'Premium') {
+                paymentAmount.textContent = 'Pay $3';
+            }
+        });
+
+        document.getElementById('advertisement-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the form from submitting
+
+            // Get the selected tier from the form
+            var formData = new FormData(this);
+            var tier = formData.get('tier');
+
+            // Update the payment amount based on the selected tier
+            var paymentAmount = document.getElementById('payment-amount');
+            if (tier === 'Basic') {
+                paymentAmount.textContent = 'Pay $1';
+            } else if (tier === 'Recommended') {
+                paymentAmount.textContent = 'Pay $2';
+            } else if (tier === 'Premium') {
+                paymentAmount.textContent = 'Pay $3';
+            }
+
+            // Submit the form
+            this.submit();
+        });
+    </script>
+</body>
+</html>

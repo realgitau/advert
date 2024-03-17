@@ -1,0 +1,37 @@
+{% extends 'payments/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h5 class="text-center mb-4">Make Payment: KES {{ payment.amount }}</h5>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-3 mb-0">
+                <button type="submit" class="btn btn-large btn-success btn-block" onclick="payWithPayStack()" id="django-paystack-button" style="border-radius: 15px;">Pay</button>
+            </div>
+        </div>
+    <script>
+        function payWithPayStack(){
+            let currency = "KES";
+            let plan = "";
+            let ref = "{{ payment.ref }}";
+            let obj = {
+                key: "{{ paystack_public_key }}",
+                email: "{{ payment.email }}",
+                amount: "{{ payment.amount_value}}",
+                ref:ref,
+                callback: function(response){
+                    window.location.href = "{% url 'payments:verify-payment' payment.ref %}";
+                }
+            }
+
+            if (Boolean(currency)){
+                obj.currency = currency.toUpperCase()
+            }
+            if (Boolean(plan)){
+                obj.plan = plan;
+            }
+            var handler = PaystackPop.setup(obj);
+            handler.openIframe();
+        }
+    </script>
+{% endblock content %}

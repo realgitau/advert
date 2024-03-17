@@ -1,0 +1,24 @@
+{% extends "payments/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h4 class="text-center mb-4" style="color: rgba(12, 189, 21, 0.932);">Initiate Payment</h4>
+    <form action="." method="POST" class="mx-auto" style="max-width: 400px;">
+        {% csrf_token %}
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-9 mb-0">
+              {{ payment_form.amount|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-9 mb-0">
+              {{ payment_form.email|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-9 mb-0">
+                <input type="submit" class="btn btn-success btn-block" style="border-radius: 18px;" value="Confirm"></input>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
